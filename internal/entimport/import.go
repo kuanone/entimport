@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	"ariga.io/atlas/sql/schema"
 	"ariga.io/entimport/internal/mux"
@@ -23,7 +24,7 @@ const (
 	from
 )
 
-var joinTableErr = errors.New("entimport: join tables must be inspected with ref tables - append `tables` flag")
+var errJoinTable = errors.New("entimport: join tables must be inspected with ref tables - append `tables` flag")
 
 type (
 	edgeDir int
@@ -204,11 +205,11 @@ func upsertManyToMany(mutations map[string]schemast.Mutator, table *schema.Table
 	}
 	nodeA, ok := mutations[tableA.Name].(*schemast.UpsertSchema)
 	if !ok {
-		return joinTableErr
+		return errJoinTable
 	}
 	nodeB, ok := mutations[tableB.Name].(*schemast.UpsertSchema)
 	if !ok {
-		return joinTableErr
+		return errJoinTable
 	}
 	opts.refName = tableName(nodeB.Name)
 	upsertRelation(nodeA, nodeB, opts)
@@ -233,11 +234,11 @@ func isJoinTable(table *schema.Table) bool {
 }
 
 func typeName(tableName string) string {
-	return inflect.Camelize(inflect.Singularize(tableName))
+	return inflect.Camelize(strings.ToLower(tableName))
 }
 
 func tableName(typeName string) string {
-	return inflect.Underscore(inflect.Pluralize(typeName))
+	return strings.ToLower(typeName)
 }
 
 // resolvePrimaryKey returns the primary key as an ent field for a given table.

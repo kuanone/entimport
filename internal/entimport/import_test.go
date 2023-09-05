@@ -3,7 +3,6 @@ package entimport_test
 import (
 	"context"
 	"go/ast"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -1927,11 +1926,7 @@ func MockPostgresSingleTableFields() *schema.Schema {
 		Name:   "users_pkey",
 		Unique: true,
 		Table:  table,
-		Attrs: []schema.Attr{
-			&postgres.ConType{
-				T: "p",
-			},
-		},
+		Attrs:  []schema.Attr{},
 		Parts: []*schema.IndexPart{
 			{
 				SeqNo: 1,
@@ -2010,11 +2005,7 @@ func MockPostgresTableFieldsWithAttributes() *schema.Schema {
 		Name:   "users_pkey",
 		Unique: true,
 		Table:  table,
-		Attrs: []schema.Attr{
-			&postgres.ConType{
-				T: "p",
-			},
-		},
+		Attrs:  []schema.Attr{},
 		Parts: []*schema.IndexPart{
 			{
 				SeqNo: 1,
@@ -2194,11 +2185,7 @@ func MockPostgresMultiTableFields() *schema.Schema {
 		Name:   "users_pkey",
 		Unique: true,
 		Table:  tableA,
-		Attrs: []schema.Attr{
-			&postgres.ConType{
-				T: "p",
-			},
-		},
+		Attrs:  []schema.Attr{},
 		Parts: []*schema.IndexPart{
 			{
 				SeqNo: 1,
@@ -2335,11 +2322,7 @@ func MockPostgresNonDefaultPrimaryKey() *schema.Schema {
 		Name:   "users_pkey",
 		Unique: true,
 		Table:  table,
-		Attrs: []schema.Attr{
-			&postgres.ConType{
-				T: "p",
-			},
-		},
+		Attrs:  []schema.Attr{},
 		Parts: []*schema.IndexPart{
 			{
 				SeqNo: 1,
@@ -2396,11 +2379,7 @@ func MockPostgresNonDefaultPrimaryKeyWithIndexes() *schema.Schema {
 		Name:   "users_pkey",
 		Unique: true,
 		Table:  table,
-		Attrs: []schema.Attr{
-			&postgres.ConType{
-				T: "p",
-			},
-		},
+		Attrs:  []schema.Attr{},
 		Parts: []*schema.IndexPart{
 			{
 				SeqNo: 1,
@@ -2457,9 +2436,6 @@ func MockPostgresM2MTwoTypes() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -2522,9 +2498,6 @@ func MockPostgresM2MTwoTypes() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -2596,9 +2569,6 @@ func MockPostgresM2MTwoTypes() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -2679,9 +2649,6 @@ func MockPostgresM2MSameType() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -2730,9 +2697,6 @@ func MockPostgresM2MSameType() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -2835,9 +2799,6 @@ func MockPostgresM2MBidirectional() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -2899,9 +2860,6 @@ func MockPostgresM2MBidirectional() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -3004,9 +2962,6 @@ func MockPostgresO2OTwoTypes() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3077,9 +3032,6 @@ func MockPostgresO2OTwoTypes() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3112,9 +3064,6 @@ func MockPostgresO2OTwoTypes() *schema.Schema {
 			Attrs: []schema.Attr{
 				&postgres.IndexType{
 					T: "btree",
-				},
-				&postgres.ConType{
-					T: "u",
 				},
 			},
 			Parts: []*schema.IndexPart{
@@ -3192,9 +3141,6 @@ func MockPostgresO2OSameType() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3229,9 +3175,6 @@ func MockPostgresO2OSameType() *schema.Schema {
 			Attrs: []schema.Attr{
 				&postgres.IndexType{
 					T: "btree",
-				},
-				&postgres.ConType{
-					T: "u",
 				},
 			},
 			Parts: []*schema.IndexPart{
@@ -3316,9 +3259,6 @@ func MockPostgresO2OBidirectional() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3353,9 +3293,6 @@ func MockPostgresO2OBidirectional() *schema.Schema {
 			Attrs: []schema.Attr{
 				&postgres.IndexType{
 					T: "btree",
-				},
-				&postgres.ConType{
-					T: "u",
 				},
 			},
 			Parts: []*schema.IndexPart{
@@ -3429,9 +3366,6 @@ func MockPostgresO2MTwoTypes() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3493,9 +3427,6 @@ func MockPostgresO2MTwoTypes() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -3581,9 +3512,6 @@ func MockPostgresO2MSameType() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3665,9 +3593,6 @@ func MockPostgresO2XOtherSideIgnored() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3729,9 +3654,6 @@ func MockPostgresO2XOtherSideIgnored() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -3803,9 +3725,6 @@ func MockPostgresM2MJoinTableOnly() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3867,9 +3786,6 @@ func MockPostgresM2MJoinTableOnly() *schema.Schema {
 		Attrs: []schema.Attr{
 			&postgres.IndexType{
 				T: "btree",
-			},
-			&postgres.ConType{
-				T: "p",
 			},
 		},
 		Parts: []*schema.IndexPart{
@@ -3942,9 +3858,6 @@ func MockPostgresM2MJoinTableOnly() *schema.Schema {
 			&postgres.IndexType{
 				T: "btree",
 			},
-			&postgres.ConType{
-				T: "p",
-			},
 		},
 		Parts: []*schema.IndexPart{
 			{
@@ -3980,7 +3893,7 @@ type inspectorMock struct {
 	mock.Mock
 }
 
-func (_m *inspectorMock) InspectTable(_ context.Context, _ string, _ *schema.InspectTableOptions) (*schema.Table, error) {
+func (_m *inspectorMock) InspectTable(_ context.Context, _ string, _ *schema.InspectOptions) (*schema.Table, error) {
 	return nil, nil
 }
 
@@ -4007,10 +3920,9 @@ func (_m *inspectorMock) InspectSchema(ctx context.Context, name string, opts *s
 }
 
 func createTempDir(t *testing.T) string {
-	tmpDir, err := ioutil.TempDir("", "entimport-*")
-	require.NoError(t, err)
+	tmpDir := os.TempDir()
 	t.Cleanup(func() {
-		err = os.RemoveAll(tmpDir)
+		err := os.RemoveAll(tmpDir)
 		require.NoError(t, err)
 	})
 	return tmpDir
